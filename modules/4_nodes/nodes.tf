@@ -296,3 +296,35 @@ data "ibm_pi_instance_ip" "worker_ip" {
   pi_network_name      = var.network_name
   pi_cloud_instance_id = var.service_instance_id
 }
+
+data "ibm_pi_dhcps" "dhcp_servers" {
+  pi_cloud_instance_id = var.powervs_service_instance_id
+}
+
+data "ibm_pi_dhcp" "dhcp_server" {
+  count = length(data.ibm_pi_dhcps.dhcp_servers.servers)
+  #depends_on           = [null_resource.manage_packages, ibm_pi_instance.bastion]
+  pi_cloud_instance_id = var.powervs_service_instance_id
+  pi_dhcp_id           = data.ibm_pi_dhcps.dhcp_servers.servers[count.index].dhcp_id
+}
+
+data "ibm_pi_instance" "master_instance" {
+  count = var.master["count"]
+  pi_instance_name     = ibm_pi_instance.master[count.index].pi_instance_name
+  pi_cloud_instance_id = var.powervs_service_instance_id
+}
+
+locals { 
+  masters_macs = [for pvm in data.ibm_pi_instance.master_instance : pvm.networks[0].macaddress]
+  ip_to_mac_map = [for lease in data.ibm_pi_dhcps.dhcp_server[0].leases : {
+    "mac": lease.instance_mac,
+    "ip": lease.instance_ip
+  }]
+  master_ips = [
+    for im in local.ip_to_mac_map : im.ip if contains(keys(var.masters_macs), im.mac)
+  ]
+
+}
+
+# still needs to be mapped into an output.
+# and same done for workers
