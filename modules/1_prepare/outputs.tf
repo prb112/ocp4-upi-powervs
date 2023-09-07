@@ -20,7 +20,7 @@
 
 output "bastion_ip" {
   depends_on = [null_resource.bastion_init, null_resource.setup_nfs_disk]
-  value      = data.ibm_pi_instance_ip.bastion_ip.*.ip
+  value      = data.ibm_pi_instance_ip.bastion_public_ip.*.external_ip
 }
 
 output "bastion_public_ip" {
