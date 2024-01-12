@@ -360,6 +360,7 @@ resource "null_resource" "bastion_packages" {
   }
   provisioner "remote-exec" {
     inline = [
+      "sudo yum install -y ansible-core-2.12.7-1.el8.ppc64le",
       "sudo yum install -y ansible",
       "ansible-galaxy collection install community.crypto",
       "ansible-galaxy collection install ansible.posix",
