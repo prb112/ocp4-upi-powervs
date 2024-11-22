@@ -71,6 +71,7 @@ module "prepare" {
   proxy                           = var.proxy
   fips_compliant                  = var.fips_compliant
   create_cloud_connection         = local.create_cloud_connection
+  override_bastion_storage_pool   = var.override_bastion_storage_pool
 }
 
 data "ibm_pi_workspace" "workspace" {

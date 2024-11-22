@@ -82,3 +82,5 @@ variable "proxy" {}
 variable "fips_compliant" {}
 
 variable "create_cloud_connection" {}
+
+variable "override_bastion_storage_pool" {}

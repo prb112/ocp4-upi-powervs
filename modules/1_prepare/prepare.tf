@@ -48,8 +48,9 @@ locals {
     )
   )
   # Use project image pool; If it is a catalog image OR project image pool is "" then let use default (null)
-  project_bastion_image_pool = !local.invalid_bastion_image && length(local.project_bastion_image) != 0 ? local.project_bastion_image[0].storage_pool : ""
-  bastion_storage_pool       = local.project_bastion_image_pool == "" ? null : local.project_bastion_image_pool
+  project_bastion_image_pool    = !local.invalid_bastion_image && length(local.project_bastion_image) != 0 ? local.project_bastion_image[0].storage_pool : ""
+  override_bastion_storage_pool = var.override_bastion_storage_pool == "" ? null : var.override_bastion_storage_pool
+  bastion_storage_pool          = local.project_bastion_image_pool == "" ? local.override_bastion_storage_pool : local.project_bastion_image_pool
 }
 
 # Copy image from catalog if not in the project and present in catalog

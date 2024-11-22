@@ -513,6 +513,13 @@ variable "volume_shareable" {
   default     = false
 }
 
+# Pools visible from the CLI - ibmcloud pi storage-pools
+variable "override_bastion_storage_pool" {
+  type        = string
+  description = "Sets the bastion storage pool"
+  default     = ""
+}
+
 variable "upgrade_image" {
   type        = string
   description = "OCP upgrade image e.g. quay.io/openshift-release-dev/ocp-release-nightly@sha256:xxxxx"
