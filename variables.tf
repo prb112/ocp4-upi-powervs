@@ -356,7 +356,7 @@ variable "pull_secret_file" {
 
 variable "dns_forwarders" {
   type    = string
-  default = "8.8.8.8; 8.8.4.4"
+  default = "161.26.0.10; 161.26.0.11"
 }
 
 variable "rhcos_pre_kernel_options" {
